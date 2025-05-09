@@ -1,5 +1,5 @@
 [package]
-name = "alloy-trie"
+name = "gravity-trie"
 version = "0.8.1"
 authors = [
     "rkrasiuk <rokrassyuk@gmail.com>",
