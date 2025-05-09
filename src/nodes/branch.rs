@@ -288,7 +288,6 @@ impl BranchNodeCompact {
         state_mask: impl Into<TrieMask>,
         tree_mask: impl Into<TrieMask>,
         hash_mask: impl Into<TrieMask>,
-        hashes: Vec<B256>,
         root_hash: Option<B256>,
     ) -> Self {
         let (state_mask, tree_mask, hash_mask) =
@@ -301,8 +300,12 @@ impl BranchNodeCompact {
             hash_mask.is_subset_of(state_mask),
             "state_mask {state_mask:?} hash_mask: {hash_mask:?}"
         );
-        assert_eq!(hash_mask.count_ones() as usize, hashes.len());
-        Self { state_mask, tree_mask, hash_mask, hashes, root_hash }
+        Self { state_mask, tree_mask, hash_mask, hashes: vec![], root_hash }
+    }
+
+    pub fn init_hashed(&mut self, hashes: Vec<B256>) {
+        assert_eq!(self.hash_mask.count_ones() as usize, hashes.len());
+        self.hashes = hashes.into();
     }
 
     /// Returns the hash associated with the given nibble.
